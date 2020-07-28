@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,19 +36,19 @@ public class FileRepositoryTest {
 
     @Test
     @DisplayName("Тест метода FileRepository.countDirsInDirectory(String path)")
-    void testCountDirsInDirectory() {
+    void testCountDirsInDirectory() throws IOException {
         assertEquals(7, fileRepository.countDirsInDirectory(TEST_DIR_COUNT_PATH));
     }
 
     @Test
     @DisplayName("Тест метода FileRepository.countFilesInDirectory(String path)")
-    void testCountFilesInDirectory() {
+    void testCountFilesInDirectory() throws IOException {
         assertEquals(10, fileRepository.countFilesInDirectory(TEST_DIR_COUNT_PATH));
     }
 
     @Test
     @DisplayName("Тест метода FileRepository.createFile(String path)")
-    void testCreateFile() {
+    void testCreateFile() throws IOException {
         fileRepository.createFile(TEST_DIR_CREATE_PATH, TEST_FILE_TO_CREATE);
 
         assertTrue(getFile(TEST_DIR_CREATE_PATH + "/" + TEST_FILE_TO_CREATE).exists());
@@ -56,16 +56,15 @@ public class FileRepositoryTest {
 
     @Test
     @DisplayName("Тест метода FileRepository.readFileFromResources(String fileName)")
-    void testReadFileFromResources() {
+    void testReadFileFromResources() throws IOException {
         assertEquals("Ya-hoo!", fileRepository.readFileFromResources("readme.txt"));
     }
 
 
     private File getFile(String path) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(path);
-        if (resource != null) {
-            return new File(resource.getFile());
+        File file = new File("src/main/resources/" + path);
+        if (file.exists()) {
+            return file;
         }
         return new File("");
     }
