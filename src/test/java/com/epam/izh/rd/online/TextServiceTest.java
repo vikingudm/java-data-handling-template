@@ -50,7 +50,7 @@ public class TextServiceTest {
 
     @ParameterizedTest
     @MethodSource("com.epam.izh.rd.online.Providers#testIsPalindromeProvider")
-    @DisplayName("Тест метода MathService.removeString(String base, String remove)")
+    @DisplayName("Тест метода MathService.isPalindrome(String string)")
     void testIsPalindrome(String param, boolean expected) {
         assertEquals(expected, textService.isPalindrome(param), "Для входого параметра: " + param);
     }
